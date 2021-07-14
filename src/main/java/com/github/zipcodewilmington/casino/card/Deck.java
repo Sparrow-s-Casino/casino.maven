@@ -24,7 +24,7 @@ public class Deck {
         int randomIndex = 0;
         int originSize = this.cards.size();
         for(int i = 0; i < originSize; i++){
-            randomIndex = random.nextInt((originSize - 1) + 1); //rand.nextInt((max-min) + 1) + min;
+            randomIndex = random.nextInt((originSize + 1) + 1); //rand.nextInt((max-min) + 1) + min;
             tempD.add(this.cards.get(randomIndex));
             this.cards.remove(randomIndex);
         }
