@@ -14,6 +14,7 @@ import com.github.zipcodewilmington.casino.PlayerInterface;
 import java.util.concurrent.ThreadLocalRandom;
 
 
+import static com.github.zipcodewilmington.casino.PigMenus.secondPlayerMenu;
 import static com.github.zipcodewilmington.casino.PigMenus.welcomeScreen;
 
 
@@ -23,9 +24,6 @@ public class Pig implements GameInterface {
     pig.run();
   }
 
-  // private static int playerTwo = 2;
-  // private static int playerOne = 1;
-  // private static int scoreToWin = 100;
   private int currentTurn;
   private int dieValue;
   private int turnScore;
@@ -34,28 +32,25 @@ public class Pig implements GameInterface {
   private String  rollAnswer;
   private int rollCounter;
   public Scanner input = new Scanner(System.in);
-  //Random generator = new Random();
   // ThreadLocalRandom current = ThreadLocalRandom.current();
 
   public Pig() {
-
   }
 
-//  public void welcomeToPig () {
-//  PigMenus.welcomeMenu();
-//  }
+public void welcomeToPig () {
+  PigMenus.welcomeMenu();
+  secondPlayerMenu();
+  }
 
   public String currentStateOfTheGame () {
     return "Player 1 has " + pOneTotal + " points. \n Player 2 has " + pTwoTotal + " points.";
   }
 
   public int playerTurn () {
-
-
       System.out.println("Please enter 'r' to roll or 'h' to hold");
       //input.nextLine();
       rollAnswer = input.next();
-      if (rollAnswer == "r'") {
+      if (rollAnswer.equals("r")) {
         Random generator = new Random();
         dieValue = generator.nextInt(6) + 1;
         turnScore += dieValue;
@@ -71,15 +66,12 @@ public class Pig implements GameInterface {
           System.out.println("Player earned " + turnScore + " points.");
           playerTurn();
         }
-      } else if (rollAnswer == "h") {
+      } else if (rollAnswer.equals("h")) {
         currentTurn++;
         switchingPlayers();
       }
-
-
     return turnScore;
   }
-
 
   public void switchingPlayers () {
     if (currentTurn % 2 == 0) {
@@ -95,18 +87,19 @@ public class Pig implements GameInterface {
     }
   }
 
-
   public boolean getWinner(){
-    if (pOneTotal >= 15) {
+    if (pOneTotal >= 10) {
       System.out.println("Player 1 won!");
       return true;
-    } else if (pTwoTotal >= 15) {
+    } else if (pTwoTotal >= 10) {
       System.out.println("Player 2 won!");
       return true;
     } return false;
   }
 
-
+  public int roll(){
+    return 1;
+  }
 
 
   @Override
@@ -120,19 +113,15 @@ public class Pig implements GameInterface {
   }
 
   public void run(){
-      //welcomeToPig();
-
+      secondPlayerMenu();
       currentTurn = 1;
       pOneTotal = 0;
       pTwoTotal = 0;
-
-
 
       while (getWinner() == false) {
         playerTurn();
 
     }
-
   }
 }
 
