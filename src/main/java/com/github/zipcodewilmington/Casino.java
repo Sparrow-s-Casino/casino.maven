@@ -13,7 +13,7 @@ import javax.management.relation.Role;
 
 /**
  * Created by leon on 7/21/2020.
- */
+ */ /*
 public class Casino implements Runnable {
     private final IOConsole console = new IOConsole(AnsiColor.BLUE);
 
@@ -84,4 +84,4 @@ public class Casino implements Runnable {
         game.add(player);
         game.run();
     }
-}
+}*/

@@ -4,7 +4,7 @@ import com.github.zipcodewilmington.casino.card.Card;
 import com.github.zipcodewilmington.casino.card.Hand;
 
 import java.util.ArrayList;
-
+/*
 public class WarPlayer extends Player {
 //
 //    Player player;
@@ -31,3 +31,4 @@ public class WarPlayer extends Player {
 //
 
 }
+*/
