@@ -26,7 +26,22 @@ public class Slots implements GameInterface {
          int wheel1;
          int wheel2;
          int wheel3;
-         System.out.println("    SLOT MACHINE!!!");
+
+
+
+
+
+
+        System.out.println("\uD83D\uDD34              \uD83D\uDD35           \uD83D\uDD34                 \uD83D\uDD34               \uD83D\uDFE1                                      \uD83D\uDFE2            \uD83D\uDFE1         \uD83D\uDD34             \uD83D\uDFE2");
+        System.out.println("  \uD83D\uDD35                        \uD83D\uDFE1                                                               \uD83D\uDD35                \uD83D\uDFE3");
+        System.out.println("           \uD83D\uDD35      \uD83D\uDFE2                      \uD83D\uDD35    \uD83D\uDFE2          \uD83D\uDD34                    \uD83D\uDFE1                                   \uD83D\uDFE3                          \uD83D\uDD35 ");
+        System.out.println("                 \uD83D\uDFE3             \uD83D\uDD35                                  \uD83D\uDD34              \uD83D\uDFE2                     \uD83D\uDFE3 ");
+        System.out.println("\uD83D\uDD34         \uD83D\uDFE1                                      \uD83D\uDFE3   ==============   SLOT MACHINE     ============     \uD83D\uDFE2                      \uD83D\uDD35            \uD83D\uDFE1                     \uD83D\uDD35             \uD83D\uDFE2      \uD83D\uDFE1         \uD83D\uDFE3");
+        System.out.println("               \uD83D\uDD35      \uD83D\uDD34");
+        System.out.println("  \uD83D\uDFE2                                         \uD83D\uDD35                \uD83D\uDFE3                         \uD83D\uDFE2                           \uD83D\uDFE2             \uD83D\uDFE2      \uD83D\uDD34      \uD83D\uDFE1");
+        System.out.println("          \uD83D\uDD35   \uD83D\uDFE2            \uD83D\uDFE1        \uD83D\uDD34        \uD83D\uDFE3                 \uD83D\uDD35              \uD83D\uDFE3                      \uD83D\uDD34          \uD83D\uDFE3");
+        System.out.println("                               \uD83D\uDFE1           \uD83D\uDFE3                   \uD83D\uDD35                                      \uD83D\uDFE1 ");
+
          System.out.println(" ");
          System.out.println("      ____________________");
          System.out.println("     /___________________/|");
@@ -42,11 +57,14 @@ public class Slots implements GameInterface {
          System.out.println("     |                 | / ");
          System.out.println("     |_________________|/   ");
 
+        System.out.println(" ");
+        System.out.println(" ");
+
 
 
          do {
 
-             System.out.println("tokens:" + bet);
+             System.out.println("cash:" + '$' + bet);
              System.out.println("PRESS 1 TO PULL OR 2 TO QUIT");
 
              playerInput = console.nextInt();
@@ -64,18 +82,18 @@ public class Slots implements GameInterface {
                  wheel3 = generator.nextInt(8) + 1;
 
 
-                 System.out.println(wheel1 + " " + '|'  + " " +  wheel2 +  " " + '|' + wheel3);
+                 System.out.println(wheel1 + " " + '|'  + " " +  wheel2 +  " " + '|' + " " +  wheel3);
 
                  if (wheel1 == wheel2 && wheel1 == wheel3) {
-                     System.out.println("YOU WIN 15 TOKENS ☺︎!!!");
+                     System.out.println("YOU WIN $15 ☺︎!!!");
                      bet += 15;
 
                  } else if (wheel1 == wheel2 || wheel1 == wheel3 || wheel2 == wheel3) {
-                     System.out.println("YOU WIN 7 TOKENS ☺︎!!!");
+                     System.out.println("YOU WIN $7 ☺︎!!!");
                      bet += 7;
                  } else {
 
-                     System.out.println("YOU LOOSE 3 TOKENS !!");
+                     System.out.println("YOU LOOSE $5 !!");
                      bet -= 3;
                  }
 
