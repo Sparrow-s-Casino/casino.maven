@@ -1,19 +1,16 @@
 package com.github.zipcodewilmington.casino.games;
 
 import com.github.zipcodewilmington.Casino;
-import com.github.zipcodewilmington.casino.GameInterface;
-import com.github.zipcodewilmington.casino.PlayerInterface;
-
 import java.util.Random;
 import java.util.Scanner;
 
 import static com.github.zipcodewilmington.casino.PigMenus.*;
 
-public class Pig implements GameInterface {
+public class Pig {
 
     Casino casino = new Casino();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Pig pig = new Pig();
         pig.run();
@@ -24,7 +21,7 @@ public class Pig implements GameInterface {
     private int turnScore;
     public int pOneTotal;
     public int pTwoTotal;
-    private String rollAnswer;
+    public String rollAnswer;
     public Scanner input = new Scanner(System.in);
     // ThreadLocalRandom current = ThreadLocalRandom.current();
 
@@ -34,8 +31,6 @@ public class Pig implements GameInterface {
     public void welcomeToPig() throws InterruptedException {
         welcomeScreen();
         Scanner input = new Scanner(System.in);
-        input.nextLine();
-        System.out.println("Would you like to play? Press [ y ] to play and [ q ] to quit");
         String areYouGonnaPlay = input.next();
         if (areYouGonnaPlay.equals("q")) {
             casino.run();
@@ -47,16 +42,22 @@ public class Pig implements GameInterface {
     public void secondPlayerLoginOrCreate() throws InterruptedException {
         secondPlayerMenu();
         Scanner input = new Scanner(System.in);
-        input.nextLine();
-        System.out.println("Please create your character. Press [ c ] to create or [ q ] to quit.");
         String loginOrCreate = input.next();
-        if (loginOrCreate.equals("l")) {
-            playerTwoLogin();
-        } else if (loginOrCreate.equals("c")) {
-            playerTwoCreate();
-            } else if (loginOrCreate.equals("q")) {
-            casino.run();
-            }
+        switch (loginOrCreate) {
+            case "l":
+                playerTwoLogin();
+                break;
+            case "c":
+                input.nextLine();
+                System.out.println("Please create your login");
+                playerTwoCreate();
+                break;
+            case "q":
+                casino.run();
+                break;
+            default:
+                System.out.println("That is not a valid option!");
+        }
         }
 
 
@@ -66,8 +67,8 @@ public class Pig implements GameInterface {
         String start = input.next();
         if (start.equals("s")) {
             itsPlayerOnesTurn();
-            Thread.sleep(2000);
-            new Pig();
+            Thread.sleep(1000);
+            playerTurn();
         } else if (start.equals("q")) {
             casino.run();
         }
@@ -80,72 +81,127 @@ public class Pig implements GameInterface {
                 "|**********************************************************************|\n" +
                 "|**********************************************************************|\n";
     }
+public int rollDie() {
+    Random generator = new Random();
+    dieValue = generator.nextInt(6) + 1;
+    turnScore += dieValue;
+    // dieValue = ThreadLocalRandom.current().nextInt(1, 7);
+    return dieValue;
+}
 
-    public int playerTurn() throws InterruptedException {
+public void badLuck() throws InterruptedException {
+    currentTurn++;
+    turnScore = 0;
+    youRolledAOne();
+    Thread.sleep(2000);
+    tallyTotal();
+}
+    public String start(){
         System.out.println( "" +
                 "|**********************************************************************|\n" +
                 "|*****     Please enter 'r' to roll, 'h' to hold, or q to quit    *****|\n" +
                 "|**********************************************************************|\n");
-        rollAnswer = input.next();
-        if (rollAnswer.equals("r")) {
-            Random generator = new Random();
-            dieValue = generator.nextInt(6) + 1;
-            turnScore += dieValue;
-            // dieValue = ThreadLocalRandom.current().nextInt(1, 7);
-            if (dieValue == 1) {
-                currentTurn++;
-                turnScore = 0;
-                youRolledAOne();
-                Thread.sleep(2000);
-                switchingPlayers();
-            } else {
-                whatDidYouRoll();
-                System.out.println(PURPLE + "" +
 
-                        "|*****                    Player earned " + turnScore + " points                  *****|\n" +
-                        "|**********************************************************************|\n" +
-                        "|**********************************************************************|\n");
-                Thread.sleep(2000);
-                playerTurn();
-            }
-        } else if (rollAnswer.equals("h")) {
-            currentTurn++;
-            switchingPlayers();
-        } else if (rollAnswer.equals("q")){
-            casino.run();
+        return rollAnswer = input.next();
+
+    }
+
+    public void turnUpdate() throws InterruptedException {
+        whatDidYouRoll();
+        Thread.sleep(1000);
+        checkingForMidTurnWinner();
+        System.out.println(PURPLE + "" +
+
+                "|*****                    Player earned " + turnScore + " points                  *****|\n" +
+                "|**********************************************************************|\n" +
+                "|**********************************************************************|\n");
+        Thread.sleep(2000);
+        playerTurn();
+    }
+
+    public int playerTurn() throws InterruptedException {
+
+        switch (start()) {
+            case "r":
+                rollDie();
+                if (dieValue == 1) {
+                    badLuck();
+                } else {
+                    turnUpdate();
+                }
+                break;
+            case "h":
+                currentTurn++;
+                tallyTotal();
+                break;
+            case "q":
+                casino.run();
+                break;
+            default:
+                System.out.println("That is not a valid choice!");
         }
         return turnScore;
     }
 
-    public void whatDidYouRoll() {
-        if (dieValue == 2) {
-            youRolledATwo();
-        } else if (dieValue == 3) {
-            youRolledAThree();
-        } else if (dieValue == 4) {
-            youRolledAFour();
-        } else if (dieValue == 5) {
-            youRolledAFive();
-        } else if (dieValue == 6) {
-            youRolledASix();
-        }
-
+    public void whatDidYouRoll()  {
+       switch(dieValue) {
+           case 2:
+               youRolledATwo();
+               break;
+           case 3:
+               youRolledAThree();
+               break;
+           case 4:
+               youRolledAFour();
+               break;
+           case 5:
+               youRolledAFive();
+               break;
+           case 6:
+               youRolledASix();
+               break;
+           default:
+               System.out.println("Oops! That's not valid!");
+               rollDie();
+       }
     }
 
-    public void switchingPlayers() throws InterruptedException {
+    public void tallyTotal() throws InterruptedException {
         if (currentTurn % 2 == 0) {
             pOneTotal += turnScore;
         } else {
             pTwoTotal += turnScore;
         }
+        nextTurn();
+    }
+
+    public void checkingForMidTurnWinner() throws InterruptedException {
+        if (currentTurn % 2 == 0) {
+            pTwoTotal += turnScore;
+        } else {
+            pOneTotal += turnScore;
+        }
         getWinner();
-        if (getWinner() == false) {
+        if (!getWinner()){
+            getWinnerIsFalseMidTurn();
+        }
+    }
+
+    public void getWinnerIsFalseMidTurn(){
+        if (currentTurn % 2 == 0) {
+            pTwoTotal -= turnScore;
+        } else {
+            pOneTotal -= turnScore;
+        }
+
+    }
+
+    public void nextTurn() throws InterruptedException {
             turnScore = 0;
             whosTurnIsIt();
             System.out.println(currentStateOfTheGame());
             Thread.sleep(2000);
             playerTurn();
-        }
     }
 
     public void whosTurnIsIt() throws InterruptedException {
@@ -196,77 +252,64 @@ public class Pig implements GameInterface {
         System.out.println("Do you want to play again?\n" + "Enter 'y' to start again\n" + "Enter 'q' to quit to the main menu\n");
         String playAgain = input.next();
         if (playAgain.equals("y")) {
-            pOneTotal = 0;
-            pTwoTotal = 0;
-            currentTurn = 0;
-            itsPlayerOnesTurn();
-            Thread.sleep(2000);
-            playerTurn();
+            startAgain();
         } else if (playAgain.equals("q")) {
             casino.run();
         }
     }
 
+    public void startAgain() throws InterruptedException {
+        pOneTotal = 0;
+        pTwoTotal = 0;
+        currentTurn = 1;
+        turnScore = 0;
+
+        itsPlayerOnesTurn();
+        Thread.sleep(2000);
+        playerTurn();
+    }
 
 
 
-    public void run() {
-        try {
-            welcomeToPig();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void run() throws InterruptedException {
         currentTurn = 1;
         pOneTotal = 0;
         pTwoTotal = 0;
+        turnScore =0;
 
-        while (true) {
-            try {
-                if (!(getWinner() == false)) break;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                playerTurn();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        welcomeToPig();
 
+        while (!(getWinner())) {
+            playerTurn();
         }
     }
 
-    public String playerTwoLogin() throws InterruptedException {
+    public void playerTwoLogin() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter Player 2's name: ");
         String playerTwosName = input.next();
         System.out.println("Please enter " + playerTwosName + " password: ");
-        String playerTwosPassword = input.next();
+        input.next();
         System.out.println("Enjoy the game " + playerTwosName);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        System.out.println("Here come the rules!");
+        Thread.sleep(1000);
         theRules();
-        return "Here come the rules!";
     }
 
-    public String playerTwoCreate() throws InterruptedException {
+    public void playerTwoCreate() throws InterruptedException {
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter your name: ");
         String playerTwosName = input.next();
         System.out.println(playerTwosName + " please enter your desired password: ");
-        String playerTwosPassword = input.next();
+        input.next();
         System.out.println("Thank you for creating an account & enjoy your game!");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+        System.out.println( "Here come the rules!");
+        Thread.sleep(1000);
         theRules();
-        return "Here come the rules!";
-    }
-    @Override
-    public void add(PlayerInterface player) {
-
     }
 
-    @Override
-    public void remove(PlayerInterface player) {
-
-    }
 }
 
 

@@ -117,8 +117,8 @@ public class PigMenus {
                 "|*****     ~BUT if at anytime a 1 is rolled their turn is over    *****|\n" +
                 "|*****       and they lose all points banked during that turn     *****|\n" +
                 "|*****     ~The first player to reach 100 wins!                   *****|\n" +
-                "|*****                  Please 's' any value to start             *****|\n" +
-                "|*****              or enter 'q' to quit to the main menu         *****|\n" +
+                "|*****                  Please enter 's' to start                 *****|\n" +
+                "|*****            or enter 'q' to quit to the main menu           *****|\n" +
                 "|**********************************************************************|\n" +
                 "|**********************************************************************|\n");
     }
