@@ -1,17 +1,18 @@
 package com.github.zipcodewilmington.casino.games;
 
 import com.github.zipcodewilmington.Casino;
+import com.github.zipcodewilmington.casino.PigMenus;
+
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.github.zipcodewilmington.casino.PigMenus.*;
 
 public class Pig {
 
     Casino casino = new Casino();
+    public static String PURPLE = "\u001B[35m";
 
     public static void main(String[] args) throws InterruptedException {
-
         Pig pig = new Pig();
         pig.run();
     }
@@ -29,18 +30,20 @@ public class Pig {
     }
 
     public void welcomeToPig() throws InterruptedException {
-        welcomeScreen();
+        PigMenus.welcomeScreen();
         Scanner input = new Scanner(System.in);
         String areYouGonnaPlay = input.next();
         if (areYouGonnaPlay.equals("q")) {
             casino.run();
+
         } else if (areYouGonnaPlay.equals("y")) {
             secondPlayerLoginOrCreate();
         }
+
     }
 
     public void secondPlayerLoginOrCreate() throws InterruptedException {
-        secondPlayerMenu();
+        PigMenus.secondPlayerMenu();
         Scanner input = new Scanner(System.in);
         String loginOrCreate = input.next();
         switch (loginOrCreate) {
@@ -58,24 +61,26 @@ public class Pig {
             default:
                 System.out.println("That is not a valid option!");
         }
+
         }
 
 
     public void theRules() throws InterruptedException {
-        pigRules();
+        PigMenus.pigRules();
         Scanner input = new Scanner(System.in);
         String start = input.next();
         if (start.equals("s")) {
-            itsPlayerOnesTurn();
+            PigMenus.itsPlayerOnesTurn();
             Thread.sleep(1000);
             playerTurn();
         } else if (start.equals("q")) {
             casino.run();
         }
+
     }
 
     public String currentStateOfTheGame() {
-        currentStateScreen();
+        PigMenus.currentStateScreen();
         return "|*****                    Player 1 has " + pOneTotal + " points.                  *****|\n" +
                 "|*****                    Player 2 has " + pTwoTotal + " points.                  *****|\n" +
                 "|**********************************************************************|\n" +
@@ -92,9 +97,10 @@ public int rollDie() {
 public void badLuck() throws InterruptedException {
     currentTurn++;
     turnScore = 0;
-    youRolledAOne();
+    PigMenus.youRolledAOne();
     Thread.sleep(2000);
     tallyTotal();
+
 }
     public String start(){
         System.out.println( "" +
@@ -117,9 +123,10 @@ public void badLuck() throws InterruptedException {
                 "|**********************************************************************|\n");
         Thread.sleep(2000);
         playerTurn();
+
     }
 
-    public int playerTurn() throws InterruptedException {
+    public void playerTurn() throws InterruptedException {
 
         switch (start()) {
             case "r":
@@ -140,30 +147,30 @@ public void badLuck() throws InterruptedException {
             default:
                 System.out.println("That is not a valid choice!");
         }
-        return turnScore;
     }
 
     public void whatDidYouRoll()  {
        switch(dieValue) {
            case 2:
-               youRolledATwo();
+               PigMenus.youRolledATwo();
                break;
            case 3:
-               youRolledAThree();
+               PigMenus.youRolledAThree();
                break;
            case 4:
-               youRolledAFour();
+               PigMenus.youRolledAFour();
                break;
            case 5:
-               youRolledAFive();
+               PigMenus.youRolledAFive();
                break;
            case 6:
-               youRolledASix();
+               PigMenus.youRolledASix();
                break;
            default:
                System.out.println("Oops! That's not valid!");
                rollDie();
        }
+
     }
 
     public void tallyTotal() throws InterruptedException {
@@ -173,6 +180,7 @@ public void badLuck() throws InterruptedException {
             pTwoTotal += turnScore;
         }
         nextTurn();
+
     }
 
     public void checkingForMidTurnWinner() throws InterruptedException {
@@ -185,6 +193,7 @@ public void badLuck() throws InterruptedException {
         if (!getWinner()){
             getWinnerIsFalseMidTurn();
         }
+
     }
 
     public void getWinnerIsFalseMidTurn(){
@@ -193,7 +202,6 @@ public void badLuck() throws InterruptedException {
         } else {
             pOneTotal -= turnScore;
         }
-
     }
 
     public void nextTurn() throws InterruptedException {
@@ -202,16 +210,18 @@ public void badLuck() throws InterruptedException {
             System.out.println(currentStateOfTheGame());
             Thread.sleep(2000);
             playerTurn();
+
     }
 
     public void whosTurnIsIt() throws InterruptedException {
         if (currentTurn % 2 == 0) {
-            itsPlayerTwosTurn();
+            PigMenus.itsPlayerTwosTurn();
             Thread.sleep(2000);
         } else {
-            itsPlayerOnesTurn();
+            PigMenus.itsPlayerOnesTurn();
             Thread.sleep(2000);
         }
+
     }
 
     public boolean getWinner() throws InterruptedException {
@@ -227,18 +237,19 @@ public void badLuck() throws InterruptedException {
 
     public void player1Wins() throws InterruptedException {
         Thread.sleep(2000);
-        playerOneWon();
+        PigMenus.playerOneWon();
         System.out.println("|*****                    Player 1 has " + pOneTotal + " points.                 *****|\n" +
                 "|*****                    Player 2 has " + pTwoTotal + " points.                  *****|\n" +
                 "|**********************************************************************|\n" +
                 "|**********************************************************************|\n");
         Thread.sleep(2000);
         doYouWantToPlayAgain();
+
     }
 
     public void player2Wins() throws InterruptedException {
         Thread.sleep(2000);
-        playerTwoWon();
+        PigMenus.playerTwoWon();
         System.out.println("|*****                    Player 1 has " + pOneTotal + " points.                  *****|\n" +
                 "|*****                    Player 2 has " + pTwoTotal + " points.                 *****|\n" +
                 "|**********************************************************************|\n" +
@@ -256,6 +267,7 @@ public void badLuck() throws InterruptedException {
         } else if (playAgain.equals("q")) {
             casino.run();
         }
+
     }
 
     public void startAgain() throws InterruptedException {
@@ -264,9 +276,11 @@ public void badLuck() throws InterruptedException {
         currentTurn = 1;
         turnScore = 0;
 
-        itsPlayerOnesTurn();
+        PigMenus.itsPlayerOnesTurn();
         Thread.sleep(2000);
         playerTurn();
+
+
     }
 
 
@@ -282,6 +296,7 @@ public void badLuck() throws InterruptedException {
         while (!(getWinner())) {
             playerTurn();
         }
+
     }
 
     public void playerTwoLogin() throws InterruptedException {
@@ -295,6 +310,7 @@ public void badLuck() throws InterruptedException {
         System.out.println("Here come the rules!");
         Thread.sleep(1000);
         theRules();
+
     }
 
     public void playerTwoCreate() throws InterruptedException {
@@ -308,6 +324,7 @@ public void badLuck() throws InterruptedException {
         System.out.println( "Here come the rules!");
         Thread.sleep(1000);
         theRules();
+
     }
 
 }
