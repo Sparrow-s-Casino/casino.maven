@@ -1,11 +1,11 @@
 package com.github.zipcodewilmington.casino;
 
 import java.util.Scanner;
-import com.github.zipcodewilmington.casino.games.Pig;
+
 
 public class PigMenus {
-    public static final String PURPLE = "\u001B[35m";
-    public static final String RED = "\u001B[31m";
+    public static String PURPLE = "\u001B[35m";
+    public static String RED = "\u001B[31m";
     public Scanner input = new Scanner(System.in);
 
     public static void welcomeScreen() {
